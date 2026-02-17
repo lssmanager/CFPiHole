@@ -26,9 +26,9 @@ def get_lists(name_prefix: str):
     logger.debug(f"[get_lists] {r.status_code}")
 
     if r.status_code != 200:
-    print(f"❌ Error from Cloudflare API: {r.status_code}")
-    print(f"Response: {r.text}")
-    raise Exception(f"Failed to get Cloudflare lists: {r.status_code} - {r.text}")
+        print(f"❌ Error from Cloudflare API: {r.status_code}")
+        print(f"Response: {r.text}")
+        raise Exception(f"Failed to get Cloudflare lists: {r.status_code} - {r.text}")
 
     lists = r.json()["result"] or []
 
