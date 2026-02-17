@@ -132,16 +132,20 @@ class App:
                 break
 
         domains = []
-        for line in data.splitlines():
+      for line in data.splitlines():
+    # skip comments and empty lines
+    if line.startswith("#") or line.startswith(";") or line.strip() == "":
+        continue
 
-            
-            # skip comments and empty lines
-            if line.startswith("#") or line.startswith(";") or line == "\n" or line == "":
-                continue
-
-            if is_hosts_file:
-                # remove the ip address and the trailing newline
-                domain = line.split()[1].rstrip()
+    if is_hosts_file:
+        tokens = line.split()
+        if len(tokens) < 2:
+            continue  # skip lines without at least two elements
+        domain = tokens[1].rstrip()
+        if domain == "localhost":
+            continue
+    else:
+        domain = line.rstrip()
 
                 # skip the localhost entry
                 if domain == "localhost":
