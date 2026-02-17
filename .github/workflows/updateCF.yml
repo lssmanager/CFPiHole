@@ -7,6 +7,8 @@ on:
   push:
   schedule:
     - cron: '0 0 * * *'
+  workflow_dispatch:
+
 permissions:
   contents: read
 
@@ -29,3 +31,4 @@ jobs:
         CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
         CF_IDENTIFIER: ${{ secrets.CF_IDENTIFIER }}
       run: python3 main.py
+
