@@ -99,7 +99,7 @@ class App:
         if len(hostname) > 255:
             return False
         hostname = hostname.rstrip(".")
-        allowed = re.compile('^[a-z0-9]([a-z0-9\-\_]{0,61}[a-z0-9])?$',re.IGNORECASE)
+        allowed = re.compile('^[a-z0-9]([a-z0-9\\-\\_]{0,61}[a-z0-9])?$',re.IGNORECASE)
         labels = hostname.split(".")
         
         # the TLD must not be all-numeric
@@ -107,8 +107,6 @@ class App:
             return False
         
         return all(allowed.match(x) for x in labels)
-
-
 
     def download_file(self, url, name):
         self.logger.info(f"Downloading file from {url}")
@@ -132,32 +130,24 @@ class App:
                 break
 
         domains = []
-      for line in data.splitlines():
-    # skip comments and empty lines
-    if line.startswith("#") or line.startswith(";") or line.strip() == "":
-        continue
+        for line in data.splitlines():
+            # skip comments and empty lines
+            if line.startswith("#") or line.startswith(";") or line.strip() == "":
+                continue
 
-    if is_hosts_file:
-        tokens = line.split()
-        if len(tokens) < 2:
-            continue  # skip lines without at least two elements
-        domain = tokens[1].rstrip()
-        if domain == "localhost":
-            continue
-    else:
-        domain = line.rstrip()
-
-                # skip the localhost entry
+            if is_hosts_file:
+                tokens = line.split()
+                if len(tokens) < 2:
+                    continue  # skip lines without at least two elements
+                domain = tokens[1].rstrip()
                 if domain == "localhost":
                     continue
-
             else:
                 domain = line.rstrip()
 
-            #Check whitelist
+            # Check whitelist
             if domain in self.whitelist:
                 continue
-            
 
             domains.append(domain)
 
@@ -165,18 +155,11 @@ class App:
 
         return domains
 
-
-
     def chunk_list(self, _list: List[str], n: int):
         for i in range(0, len(_list), n):
             yield _list[i : i + n]
 
 
 if __name__ == "__main__":
-
-
     app = App()
     app.run()
-
-
-    
